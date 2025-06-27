@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WindieChat FINAL LIVE</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      font-family: Arial, sans-serif;
+      font-size: 22px;
+      overflow: hidden;
+    }
+    #chatbox {
+      padding: 20px;
+      display: flex;
+      flex-direction: column-reverse;
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+    .message {
+      background: linear-gradient(to right, #00ffc3, #00aaff);
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div id="chatbox"></div>
+  <script src="tmi.min.js"></script>
+  <script>
+    const chatbox = document.getElementById("chatbox");
+
+    const client = new tmi.Client({
+      options: { debug: false },
+      identity: {
+        username: "windiestink562",
+        password: "oauth:vsg3y60at8zg805zvryt8zxdrp1mb0"
+      },
+      channels: ["windiestink562"]
+    });
+
+    client.connect();
+
+    client.on("message", (channel, tags, message, self) => {
+      if (self) return;
+      const msg = document.createElement("div");
+      msg.className = "message";
+      msg.innerHTML = `<strong>${tags["display-name"] || tags.username}:</strong> ${message}`;
+      chatbox.appendChild(msg);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    });
+  </script>
+</body>
+</html>
